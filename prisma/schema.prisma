@@ -15,20 +15,31 @@ model User {
   name        String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  
 
-  // We'll add these later for the notes feature
-  // notes       Note[]
+  notes       Note[]
 
   @@map("users")
 }
 
-// We'll add these models later
-// model Note {
-//   id        String   @id @default(cuid())
-//   title     String
-//   content   String
-//   userId    String
-//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+model Note {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String?
+  inputText   String   // The original text or PDF content
+  inputType   String   // "text" or "pdf"
+  fileName    String?  // Original filename if uploaded
+  outputType  String?  // "summary", "bullets", "flashcards", "quiz" - optional until AI generates
+  outputText  String?  // The AI-generated content - optional until AI generates
+  status      String   @default("pending") // "pending", "generating", "completed", "failed"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relationship to User
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Indexes for better performance
+  @@index([userId])
+  @@index([createdAt])
+  @@map("notes")
+}
