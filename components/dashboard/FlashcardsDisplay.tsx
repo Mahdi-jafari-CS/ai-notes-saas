@@ -135,22 +135,68 @@ export function FlashcardsDisplay({ content }: FlashcardsDisplayProps) {
 function parseFlashcards(content: string): Flashcard[] {
   const cards: Flashcard[] = []
   
-  // Split by common flashcard separators
-  const cardSections = content.split(/(?:###\s*Flashcard\s*\d+|---|\n\n\n)/i)
+  // Try multiple parsing strategies
   
-  for (const section of cardSections) {
+  // Strategy 1: Split by ### Flashcard markers
+  const flashcardPattern = /###\s*Flashcard\s*\d+/gi
+  const sections = content.split(flashcardPattern).filter(s => s.trim())
+  
+  for (const section of sections) {
     const trimmed = section.trim()
     if (!trimmed) continue
     
-    // Try to match Q: and A: format
-    const qMatch = trimmed.match(/\*?\*?Q:?\*?\*?\s*(.+?)(?=\*?\*?A:?\*?\*?)/is)
-    const aMatch = trimmed.match(/\*?\*?A:?\*?\*?\s*(.+?)(?=$|###|\n\n)/is)
+    // Look for **Q:** and **A:** patterns (with or without bold markers)
+    // Use a more flexible pattern that captures everything between Q and A
+    const lines = trimmed.split('\n').map(l => l.trim()).filter(l => l)
     
-    if (qMatch && aMatch) {
+    let question = ''
+    let answer = ''
+    let isQuestion = false
+    let isAnswer = false
+    
+    for (const line of lines) {
+      // Check if line starts Q or contains Q:
+      if (/^\*{0,2}Q:?\*{0,2}/i.test(line)) {
+        isQuestion = true
+        isAnswer = false
+        question = line.replace(/^\*{0,2}Q:?\*{0,2}\s*/i, '').trim()
+      }
+      // Check if line starts A or contains A:
+      else if (/^\*{0,2}A:?\*{0,2}/i.test(line)) {
+        isAnswer = true
+        isQuestion = false
+        answer = line.replace(/^\*{0,2}A:?\*{0,2}\s*/i, '').trim()
+      }
+      // Continue adding to current section
+      else if (isQuestion) {
+        question += ' ' + line
+      } else if (isAnswer) {
+        answer += ' ' + line
+      }
+    }
+    
+    if (question && answer) {
       cards.push({
-        question: qMatch[1].trim(),
-        answer: aMatch[1].trim()
+        question: question.trim(),
+        answer: answer.trim()
       })
+    }
+  }
+  
+  // Strategy 2: If no cards found, try splitting by --- separators
+  if (cards.length === 0) {
+    const altSections = content.split(/\n---\n/).filter(s => s.trim())
+    
+    for (const section of altSections) {
+      const qMatch = section.match(/\*{0,2}Q:?\*{0,2}\s*([\s\S]+?)(?=\*{0,2}A:?\*{0,2})/i)
+      const aMatch = section.match(/\*{0,2}A:?\*{0,2}\s*([\s\S]+?)$/i)
+      
+      if (qMatch && aMatch) {
+        cards.push({
+          question: qMatch[1].trim(),
+          answer: aMatch[1].trim()
+        })
+      }
     }
   }
   
