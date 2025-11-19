@@ -34,11 +34,11 @@ export default async function NoteDetailPage({
         </Button>
       </Link>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+      <div className="bg-card rounded-lg border p-6">
+        <h1 className="text-2xl font-bold text-foreground mb-2">
           {note.title || 'Untitled Document'}
         </h1>
-        <p className="text-gray-600 mb-6">
+        <p className="text-muted-foreground mb-6">
           Created {new Date(note.createdAt).toLocaleDateString()}
         </p>
 

@@ -30,7 +30,7 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
   }
   
   if (questions.length === 0) {
-    return <div className="text-gray-500">No quiz questions found in the content.</div>
+    return <div className="text-muted-foreground">No quiz questions found in the content.</div>
   }
 
   const currentQuestion = questions[currentIndex]
@@ -70,7 +70,7 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
   }
 
   // Calculate score
-  const score = userAnswers.reduce((acc, answer, idx) => {
+  const score = userAnswers.reduce((acc: number, answer, idx) => {
     if (answer === questions[idx]?.correctAnswer) return acc + 1
     return acc
   }, 0)
@@ -81,13 +81,13 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
   if (quizCompleted) {
     return (
       <div className="space-y-6">
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 text-center">
-          <Award className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Quiz Complete!</h2>
-          <div className="text-6xl font-bold text-blue-600 my-4">
+        <div className="bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-2xl p-8 text-center">
+          <Award className="w-16 h-16 text-yellow-500 dark:text-yellow-400 mx-auto mb-4" />
+          <h2 className="text-3xl font-bold text-foreground mb-2">Quiz Complete!</h2>
+          <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 my-4">
             {score}/{questions.length}
           </div>
-          <div className="text-xl text-gray-700 mb-6">
+          <div className="text-xl text-muted-foreground mb-6">
             You scored {percentage}%
           </div>
           
@@ -107,14 +107,14 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
 
         {/* Review answers */}
         <div className="space-y-4">
-          <h3 className="text-xl font-bold text-gray-900">Review Your Answers</h3>
+          <h3 className="text-xl font-bold text-foreground">Review Your Answers</h3>
           {questions.map((q, idx) => {
             const userAnswer = userAnswers[idx]
             const isCorrect = userAnswer === q.correctAnswer
             
             return (
               <div key={idx} className={`border-2 rounded-lg p-4 ${
-                isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'
+                isCorrect ? 'border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-900/20' : 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20'
               }`}>
                 <div className="flex items-start gap-3 mb-3">
                   {isCorrect ? (
@@ -123,22 +123,22 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
                     <X className="w-6 h-6 text-red-600 mt-1" />
                   )}
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-900 mb-2">
-                      {idx + 1}. {q.question}
+                    <div className="font-semibold text-foreground mb-2">
+                      {q.question}
                     </div>
-                    <div className="text-sm space-y-1">
-                      <div className="text-gray-700">
-                        Your answer: <span className={isCorrect ? 'text-green-700 font-medium' : 'text-red-700 font-medium'}>
+                    <div className="space-y-2">
+                      <div className="text-muted-foreground">
+                        Your answer: <span className={isCorrect ? 'text-green-700 dark:text-green-400 font-medium' : 'text-red-700 dark:text-red-400 font-medium'}>
                           {userAnswer !== null ? q.options[userAnswer] : 'Not answered'}
                         </span>
                       </div>
                       {!isCorrect && (
-                        <div className="text-green-700">
+                        <div className="text-green-700 dark:text-green-400">
                           Correct answer: <span className="font-medium">{q.options[q.correctAnswer]}</span>
                         </div>
                       )}
                       {q.explanation && (
-                        <div className="text-gray-600 mt-2 italic">
+                        <div className="text-muted-foreground/80 mt-2 italic">
                           💡 {q.explanation}
                         </div>
                       )}
@@ -163,21 +163,21 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
     <div className="space-y-6">
       {/* Progress bar */}
       <div className="space-y-2">
-        <div className="flex justify-between text-sm text-gray-600">
+        <div className="flex justify-between text-sm text-muted-foreground">
           <span>Question {currentIndex + 1} of {questions.length}</span>
-          <span>{userAnswers.filter(a => a !== null).length} answered</span>
+          <span>{Math.round(((currentIndex) / questions.length) * 100)}% Complete</span>
         </div>
-        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="h-2 bg-muted rounded-full overflow-hidden">
           <div 
             className="h-full bg-blue-600 transition-all duration-300"
-            style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+            style={{ width: `${((currentIndex) / questions.length) * 100}%` }}
           />
         </div>
       </div>
 
       {/* Question */}
-      <div className="bg-white rounded-xl border-2 border-gray-200 p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-6">
+      <div className="bg-card rounded-xl border-2 p-6">
+        <h3 className="text-xl font-bold text-foreground mb-6">
           {currentQuestion.question}
         </h3>
 
@@ -195,12 +195,12 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
                 disabled={showResult}
                 className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                   showCorrectness && isCorrect
-                    ? 'border-green-500 bg-green-50'
+                    ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
                     : showCorrectness && isSelected && !isCorrect
-                    ? 'border-red-500 bg-red-50'
+                    ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
                     : isSelected
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300 bg-white'
+                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                    : 'border hover:border-muted-foreground bg-card'
                 } ${showResult ? 'cursor-not-allowed' : 'cursor-pointer'}`}
               >
                 <div className="flex items-center gap-3">
@@ -211,11 +211,11 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
                       ? 'bg-red-500 text-white'
                       : isSelected
                       ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 text-gray-600'
+                      : 'bg-muted text-muted-foreground'
                   }`}>
                     {String.fromCharCode(65 + idx)}
                   </div>
-                  <span className="flex-1">{option}</span>
+                  <span className="flex-1 text-foreground">{option}</span>
                   {showCorrectness && isCorrect && (
                     <Check className="w-5 h-5 text-green-600" />
                   )}
@@ -230,9 +230,9 @@ export function QuizDisplay({ content }: QuizDisplayProps) {
 
         {/* Explanation */}
         {showResult && currentQuestion.explanation && (
-          <div className="mt-4 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
-            <div className="font-semibold text-blue-900 mb-1">Explanation:</div>
-            <div className="text-blue-800">{currentQuestion.explanation}</div>
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 dark:border-blue-600 rounded">
+            <div className="font-semibold text-blue-900 dark:text-blue-300 mb-1">Explanation:</div>
+            <div className="text-blue-800 dark:text-blue-200">{currentQuestion.explanation}</div>
           </div>
         )}
       </div>

@@ -26,12 +26,12 @@ export function HistoryCard({ note }: HistoryCardProps) {
 
   const getTypeColor = (type: string) => {
     const colors = {
-      summary: "bg-blue-100 text-blue-700",
-      bullets: "bg-green-100 text-green-700",
-      flashcards: "bg-orange-100 text-orange-700",
-      quiz: "bg-purple-100 text-purple-700",
+      summary: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+      bullets: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+      flashcards: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
+      quiz: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
     };
-    return colors[type as keyof typeof colors] || "bg-gray-100 text-gray-700";
+    return colors[type as keyof typeof colors] || "bg-muted text-muted-foreground";
   };
 
   const previewText =
@@ -41,11 +41,11 @@ export function HistoryCard({ note }: HistoryCardProps) {
 
   return (
     <>
-      <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-gray-300 transition-colors">
+      <div className="bg-card rounded-lg border p-6 hover:border-muted transition-colors">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h3 className="font-semibold text-gray-900 text-lg">
+              <h3 className="font-semibold text-foreground text-lg">
                 {note.title || "Untitled Document"}
               </h3>
               <span
@@ -57,7 +57,7 @@ export function HistoryCard({ note }: HistoryCardProps) {
               </span>
             </div>
 
-            <p className="text-gray-600 text-sm leading-relaxed mb-3">
+            <p className="text-muted-foreground text-sm leading-relaxed mb-3">
               {previewText}
             </p>
 
@@ -87,7 +87,7 @@ export function HistoryCard({ note }: HistoryCardProps) {
 
         {/* Actions */}
         <div className="flex items-center gap-2 pt-3 border-t border-gray-100">
-          <Link href={`/history/${note.id}`}>
+          <Link href={`/dashboard/history/${note.id}`}>
             <Button
               variant="outline"
               size="sm"

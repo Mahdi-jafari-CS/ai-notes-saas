@@ -21,7 +21,7 @@ export function FlashcardsDisplay({ content }: FlashcardsDisplayProps) {
   const flashcards = parseFlashcards(content)
   
   if (flashcards.length === 0) {
-    return <div className="text-gray-500">No flashcards found in the content.</div>
+    return <div className="text-muted-foreground">No flashcards found in the content.</div>
   }
 
   const currentCard = flashcards[currentIndex]
@@ -43,7 +43,7 @@ export function FlashcardsDisplay({ content }: FlashcardsDisplayProps) {
   return (
     <div className="space-y-6">
       {/* Progress indicator */}
-      <div className="flex items-center justify-between text-sm text-gray-600">
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
         <span className="font-medium">
           Card {currentIndex + 1} of {flashcards.length}
         </span>
@@ -52,7 +52,7 @@ export function FlashcardsDisplay({ content }: FlashcardsDisplayProps) {
             <div
               key={idx}
               className={`h-2 w-8 rounded-full transition-colors ${
-                idx === currentIndex ? 'bg-blue-600' : 'bg-gray-200'
+                idx === currentIndex ? 'bg-blue-600 dark:bg-blue-500' : 'bg-muted'
               }`}
             />
           ))}
@@ -71,7 +71,7 @@ export function FlashcardsDisplay({ content }: FlashcardsDisplayProps) {
         >
           {/* Front of card (Question) */}
           <div className="absolute inset-0 backface-hidden">
-            <div className="h-full bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center text-white">
+            <div className="h-full bg-linear-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center text-white">
               <div className="text-sm font-medium mb-4 opacity-90">QUESTION</div>
               <div className="text-2xl font-bold text-center leading-relaxed">
                 {currentCard.question}
@@ -84,7 +84,7 @@ export function FlashcardsDisplay({ content }: FlashcardsDisplayProps) {
 
           {/* Back of card (Answer) */}
           <div className="absolute inset-0 backface-hidden rotate-y-180">
-            <div className="h-full bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center text-white">
+            <div className="h-full bg-linear-to-br from-green-500 to-green-600 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center text-white">
               <div className="text-sm font-medium mb-4 opacity-90">ANSWER</div>
               <div className="text-xl text-center leading-relaxed">
                 {currentCard.answer}

@@ -58,13 +58,13 @@ export function OutputSection({ activeTab, onTabChange, outputs, isGenerating, g
 
         <TabsContent value="summary" className="space-y-4 mt-4">
           {generationStatus.summary === 'generating' ? (
-            <div className="flex items-center justify-center p-12 bg-white rounded-lg border border-gray-200">
+            <div className="flex items-center justify-center p-12 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="text-center">
-                <svg className="animate-spin h-8 w-8 text-blue-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-8 w-8 text-blue-500 dark:text-blue-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <p className="text-gray-600">Generating summary...</p>
+                <p className="text-gray-600 dark:text-gray-300">Generating summary...</p>
               </div>
             </div>
           ) : (
@@ -74,18 +74,18 @@ export function OutputSection({ activeTab, onTabChange, outputs, isGenerating, g
 
         <TabsContent value="bullets" className="space-y-4 mt-4">
           {generationStatus.bullets === 'generating' ? (
-            <div className="flex items-center justify-center p-12 bg-white rounded-lg border border-gray-200">
+            <div className="flex items-center justify-center p-12 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="text-center">
-                <svg className="animate-spin h-8 w-8 text-blue-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-8 w-8 text-blue-500 dark:text-blue-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <p className="text-gray-600">Generating bullet points...</p>
+                <p className="text-gray-600 dark:text-gray-300">Generating bullet points...</p>
               </div>
             </div>
           ) : generationStatus.bullets === 'pending' ? (
-            <div className="flex items-center justify-center p-12 bg-white rounded-lg border border-gray-200">
-              <p className="text-gray-500">Waiting to generate bullet points...</p>
+            <div className="flex items-center justify-center p-12 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <p className="text-gray-500 dark:text-gray-400">Waiting to generate bullet points...</p>
             </div>
           ) : (
             <OutputDisplay content={outputs.bullets || ''} type="bullet points" />
@@ -94,18 +94,18 @@ export function OutputSection({ activeTab, onTabChange, outputs, isGenerating, g
 
         <TabsContent value="flashcards" className="space-y-4 mt-4">
           {generationStatus.flashcards === 'generating' ? (
-            <div className="flex items-center justify-center p-12 bg-white rounded-lg border border-gray-200">
+            <div className="flex items-center justify-center p-12 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="text-center">
-                <svg className="animate-spin h-8 w-8 text-blue-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-8 w-8 text-blue-500 dark:text-blue-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <p className="text-gray-600">Generating flashcards...</p>
+                <p className="text-gray-600 dark:text-gray-300">Generating flashcards...</p>
               </div>
             </div>
           ) : generationStatus.flashcards === 'pending' ? (
-            <div className="flex items-center justify-center p-12 bg-white rounded-lg border border-gray-200">
-              <p className="text-gray-500">Waiting to generate flashcards...</p>
+            <div className="flex items-center justify-center p-12 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <p className="text-gray-500 dark:text-gray-400">Waiting to generate flashcards...</p>
             </div>
           ) : (
             <OutputDisplay content={outputs.flashcards || ''} type="flashcards" />
@@ -114,18 +114,18 @@ export function OutputSection({ activeTab, onTabChange, outputs, isGenerating, g
 
         <TabsContent value="quiz" className="space-y-4 mt-4">
           {generationStatus.quiz === 'generating' ? (
-            <div className="flex items-center justify-center p-12 bg-white rounded-lg border border-gray-200">
+            <div className="flex items-center justify-center p-12 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="text-center">
-                <svg className="animate-spin h-8 w-8 text-blue-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-8 w-8 text-blue-500 dark:text-blue-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <p className="text-gray-600">Generating quiz...</p>
+                <p className="text-gray-600 dark:text-gray-300">Generating quiz...</p>
               </div>
             </div>
           ) : generationStatus.quiz === 'pending' ? (
-            <div className="flex items-center justify-center p-12 bg-white rounded-lg border border-gray-200">
-              <p className="text-gray-500">Waiting to generate quiz...</p>
+            <div className="flex items-center justify-center p-12 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <p className="text-gray-500 dark:text-gray-400">Waiting to generate quiz...</p>
             </div>
           ) : (
             <OutputDisplay content={outputs.quiz || ''} type="quiz" />

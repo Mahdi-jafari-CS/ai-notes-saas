@@ -73,8 +73,8 @@ export function HistoryPanel() {
             <HistoryIcon className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">History</h1>
-            <p className="text-gray-600">Your previously generated notes</p>
+            <h1 className="text-2xl font-bold text-foreground">History</h1>
+            <p className="text-muted-foreground">Your previously generated notes</p>
           </div>
         </div>
         <Button
@@ -101,7 +101,7 @@ export function HistoryPanel() {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
             >
               <X className="w-4 h-4" />
             </button>
@@ -111,7 +111,7 @@ export function HistoryPanel() {
         {/* Search results info */}
         {searchQuery && (
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">
+            <span className="text-muted-foreground">
               Found {filteredNotes.length} of {notes.length} notes
             </span>
             <button

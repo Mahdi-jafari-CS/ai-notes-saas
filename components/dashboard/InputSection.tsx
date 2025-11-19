@@ -55,7 +55,6 @@ export function InputSection({ onGenerate, isGenerating, onFileUploaded, viewSta
   }
 
   const handleFileUpload = async (uploadedFiles: File[]) => {
-    setFiles(uploadedFiles)
     setParseError(null)
     setCurrentNoteId(null)
     
@@ -66,8 +65,13 @@ export function InputSection({ onGenerate, isGenerating, onFileUploaded, viewSta
       const validationError = validatePDFFile(file)
       if (validationError) {
         setParseError(validationError)
+        setFiles([]) // Clear files on validation error
+        setTextInput("")
         return
       }
+      
+      // Only set files after validation passes
+      setFiles(uploadedFiles)
 
       // Auto-parse PDF and extract text
       setIsParsing(true)
@@ -106,6 +110,13 @@ export function InputSection({ onGenerate, isGenerating, onFileUploaded, viewSta
   const handleGenerate = async () => {
     if (!textInput.trim() && files.length === 0) return
     
+    // Check character limit before proceeding
+    const MAX_CHARACTERS = 50000
+    if (textInput.length > MAX_CHARACTERS) {
+      setParseError(`Text is too long. Maximum ${MAX_CHARACTERS.toLocaleString()} characters allowed. Your text contains ${textInput.length.toLocaleString()} characters.`)
+      return
+    }
+    
     const fileName = files.length > 0 ? files[0].name : undefined
     
     // If we don't have a note ID yet (text input only), create one now
@@ -123,43 +134,43 @@ export function InputSection({ onGenerate, isGenerating, onFileUploaded, viewSta
   // Collapsed view for results stage
   if (viewStage === 'results') {
     return (
-      <div className="flex items-center gap-3 text-sm text-gray-700 bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm">
-        <FileText className="w-4 h-4 text-blue-600" />
+      <div className="flex items-center gap-3 text-sm text-foreground bg-card px-4 py-2 rounded-lg border shadow-sm">
+        <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
         <span className="font-medium">
           {files.length > 0 ? files[0].name : 'Text Input'}
         </span>
-        <span className="text-gray-500">•</span>
-        <span className="text-gray-500">{textInput.length.toLocaleString()} characters</span>
+        <span className="text-gray-500 dark:text-gray-400">•</span>
+        <span className="text-gray-500 dark:text-gray-400">{textInput.length.toLocaleString()} characters</span>
       </div>
     )
   }
 
   // Combined upload and review view - always show everything together
   return (
-    <div className="space-y-6 bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+    <div className="space-y-6 bg-card p-8 rounded-2xl shadow-xl border">
       {/* File Upload Section */}
-      <div className="border-2 border-dashed border-blue-300 rounded-xl p-8 hover:border-blue-400 transition-all duration-300 bg-blue-50/30">
+      <div className="border-2 border-dashed border-blue-300 dark:border-blue-600 rounded-xl p-8 hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-300 bg-blue-50/30 dark:bg-blue-900/20">
         <FileUpload onChange={handleFileUpload} />
         
         {isParsing && (
-          <div className="mt-4 text-sm text-blue-600 flex items-center justify-center">
+          <div className="mt-4 text-sm text-blue-600 dark:text-blue-400 flex items-center justify-center">
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
             Parsing PDF and saving to database...
           </div>
         )}
         
         {parseError && (
-          <div className="mt-4 text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-200">
+          <div className="mt-4 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg border border-red-200 dark:border-red-800">
             {parseError}
           </div>
         )}
         
         {files.length > 0 && !isParsing && !parseError && (
-          <div className="mt-4 text-sm text-green-600 flex items-center justify-center bg-green-50 p-3 rounded-lg">
+          <div className="mt-4 text-sm text-green-600 dark:text-green-400 flex items-center justify-center bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
             <FileText className="w-4 h-4 mr-2" />
             PDF ready: {files[0].name}
             {currentNoteId && (
-              <span className="ml-2 text-xs text-gray-500">• Saved to database</span>
+              <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">• Saved to database</span>
             )}
           </div>
         )}
@@ -167,16 +178,22 @@ export function InputSection({ onGenerate, isGenerating, onFileUploaded, viewSta
 
       {/* Text Input - Always visible */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700 flex items-center justify-between">
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center justify-between">
           <span>{files.length > 0 ? 'Review & Edit Extracted Text:' : 'Or paste text directly:'}</span>
           {textInput.length > 0 && (
-            <span className="text-xs text-gray-500">{textInput.length.toLocaleString()} characters</span>
+            <span className={`text-xs ${textInput.length > 50000 ? 'text-red-600 dark:text-red-400 font-semibold' : textInput.length > 40000 ? 'text-orange-600 dark:text-orange-400' : 'text-gray-500 dark:text-gray-400'}`}>
+              {textInput.length.toLocaleString()} / 50,000 characters
+            </span>
           )}
         </label>
         <textarea
           value={textInput}
           onChange={(e) => {
             setTextInput(e.target.value)
+            // Clear error if user edits text to be under limit
+            if (parseError && e.target.value.length <= 50000) {
+              setParseError(null)
+            }
             if (e.target.value.trim() && viewStage === 'upload') {
               onFileUploaded()
             }
@@ -186,7 +203,7 @@ export function InputSection({ onGenerate, isGenerating, onFileUploaded, viewSta
               ? "Review and edit the extracted text..." 
               : "Paste your study text here..."
           }
-          className="w-full h-48 p-4 border border-gray-300 rounded-xl resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all font-mono text-sm leading-relaxed"
+          className="w-full h-48 p-4 border rounded-xl resize-none focus:border-blue-500 focus:ring-2 focus:ring-ring transition-all font-mono text-sm leading-relaxed bg-background text-foreground"
           disabled={isParsing}
         />
       </div>
@@ -215,7 +232,7 @@ export function InputSection({ onGenerate, isGenerating, onFileUploaded, viewSta
 
       {/* Database status indicator */}
       {currentNoteId && !isParsing && (
-        <div className="text-xs text-gray-500 text-center">
+        <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
           ✓ Ready to generate - Note saved to database
         </div>
       )}

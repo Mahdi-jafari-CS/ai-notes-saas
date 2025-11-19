@@ -30,14 +30,14 @@ export function ViewNoteModal({ note, isOpen, onClose }: ViewNoteModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-card rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden border">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-foreground">
               {note.title || 'Untitled Document'}
             </h2>
-            <p className="text-gray-600 text-sm mt-1">
+            <p className="text-muted-foreground text-sm mt-1">
               Created {new Date(note.createdAt).toLocaleDateString()}
             </p>
           </div>
@@ -52,7 +52,7 @@ export function ViewNoteModal({ note, isOpen, onClose }: ViewNoteModalProps) {
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200">
+        <div className="border-b">
           <div className="flex space-x-1 px-6">
             {tabs.map((tab) => (
               <button
@@ -60,8 +60,8 @@ export function ViewNoteModal({ note, isOpen, onClose }: ViewNoteModalProps) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-blue-50 text-blue-700 border-b-2 border-blue-700'
-                    : 'text-gray-500 hover:text-gray-700'
+                    ? 'bg-primary/10 text-primary border-b-2 border-primary'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {tab.label}

@@ -102,6 +102,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Check character limit (50,000 characters)
+    const MAX_CHARACTERS = 50000
+    if (cleanedText.length > MAX_CHARACTERS) {
+      return NextResponse.json(
+        { error: `PDF text is too long. Maximum ${MAX_CHARACTERS.toLocaleString()} characters allowed. This PDF contains ${cleanedText.length.toLocaleString()} characters.` }, 
+        { status: 400 }
+      )
+    }
+
     return NextResponse.json({
       text: cleanedText,
       success: true

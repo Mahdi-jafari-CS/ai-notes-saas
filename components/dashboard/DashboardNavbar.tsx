@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { ModeToggle } from "../ui/mode-toggle";
 
 export function DashboardNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,7 +24,7 @@ export function DashboardNavbar() {
   ];
 
   return (
-    <nav className="fixed top-0 w-full border-b bg-white/80 backdrop-blur-md z-50">
+    <nav className="fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -31,7 +32,7 @@ export function DashboardNavbar() {
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">AI</span>
             </div>
-            <span className="font-bold text-xl">StudyNotes</span>
+            <span className="font-bold text-xl text-foreground">StudyNotes</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -40,7 +41,7 @@ export function DashboardNavbar() {
               <Link
                 key={item.name}
                 href={item.link}
-                className="text-gray-600 hover:text-gray-900 transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 {item.name}
               </Link>
@@ -49,6 +50,7 @@ export function DashboardNavbar() {
 
           {/* User Menu & Mobile Toggle */}
           <div className="flex items-center space-x-4">
+            <ModeToggle />
             <UserButton afterSignOutUrl="/" />
             
             {/* Mobile Menu Button */}
@@ -73,12 +75,15 @@ export function DashboardNavbar() {
                 <Link
                   key={item.name}
                   href={item.link}
-                  className="text-gray-600 hover:text-gray-900 py-2"
+                  className="text-muted-foreground hover:text-foreground py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
+              <div className="pt-2">
+                {/* <ModeToggle /> */}
+              </div>
             </div>
           </div>
         )}

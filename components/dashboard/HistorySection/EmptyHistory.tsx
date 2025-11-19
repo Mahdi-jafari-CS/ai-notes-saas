@@ -13,22 +13,22 @@ export function EmptyHistory({ hasNotes, searchQuery }: EmptyHistoryProps) {
         {hasNotes ? (
           // No search results
           <>
-            <Search className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <Search className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-foreground mb-2">
               No notes found
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-muted-foreground mb-6">
               No notes match "{searchQuery}". Try different keywords or clear your search.
             </p>
           </>
         ) : (
           // No notes at all
           <>
-            <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <FileText className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-foreground mb-2">
               No history yet
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-muted-foreground mb-6">
               Generate your first set of study notes to see them here!
             </p>
           </>

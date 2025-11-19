@@ -129,7 +129,8 @@ export function Pointer({
                 width="20"
                 xmlns="http://www.w3.org/2000/svg"
                 className={cn(
-                  isPointer ? "text-blue-500" : "text-black",
+                  "text-blue-500",
+                  "transition-all duration-200",
                   className
                 )}
               >

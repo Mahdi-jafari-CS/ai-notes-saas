@@ -22,6 +22,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Check character limit (50,000 characters)
+    const MAX_CHARACTERS = 50000
+    if (text.length > MAX_CHARACTERS) {
+      console.error('❌ Text exceeds character limit:', text.length)
+      return NextResponse.json(
+        { error: `Text is too long. Maximum ${MAX_CHARACTERS.toLocaleString()} characters allowed. Your text contains ${text.length.toLocaleString()} characters.` },
+        { status: 400 }
+      );
+    }
+
     console.log(`🔄 Generating ${type}...`)
     let result: string;
 

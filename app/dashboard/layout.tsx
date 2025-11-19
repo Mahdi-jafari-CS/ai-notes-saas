@@ -13,7 +13,7 @@ export default function DashboardLayout({
     <>
     <Pointer />
       <DashboardNavbar />
-      <div className="pt-16"> {/* Offset for fixed navbar */}
+      <div className="pt-16"> 
         {children}
       </div>
     </>

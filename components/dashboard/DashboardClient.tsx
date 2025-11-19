@@ -192,18 +192,18 @@ export default function DashboardClient() {
   const hasResults = Object.values(outputs).some(output => output.length > 0)
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
       {/* Multi-step Loader */}
       <MultiStepLoader loadingStates={loadingStates} loading={isGenerating} duration={2000} />
       
       <div className="container mx-auto p-6">
         {/* Header - Shrinks when in results view */}
         <div className={`text-center transition-all duration-500 ${viewStage === 'results' ? 'mb-4' : 'mb-8'}`}>
-          <h1 className={`font-bold text-gray-900 transition-all duration-500 ${viewStage === 'results' ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>
+          <h1 className={`font-bold text-gray-900 dark:text-white transition-all duration-500 ${viewStage === 'results' ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>
             AI Study Notes Generator
           </h1>
           {viewStage !== 'results' && (
-            <p className="text-gray-600 text-lg mt-2 animate-fade-in">
+            <p className="text-gray-600 dark:text-gray-300 text-lg mt-2 animate-fade-in">
               Upload your study materials and get instant summaries, flashcards, and quizzes
             </p>
           )}
@@ -233,7 +233,7 @@ export default function DashboardClient() {
               />
               <button
                 onClick={handleStartNew}
-                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-white rounded-lg transition-all duration-200 border border-gray-200 hover:border-gray-300"
+                className="px-4 py-2 text-sm text-muted-foreground dark:text-gray-400 hover:text-foreground dark:hover:text-white hover:bg-card dark:hover:bg-gray-800 rounded-lg transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-muted dark:hover:border-gray-500 bg-white dark:bg-gray-800"
               >
                 📤 Upload New Document
               </button>
