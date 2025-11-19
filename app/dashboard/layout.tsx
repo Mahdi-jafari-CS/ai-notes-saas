@@ -1,21 +1,14 @@
-// app/dashboard/layout.tsx
-// import { DashboardNavbar } from '@/components/DashboardNavbar'
-import { DashboardNavbar } from '@/components/dashboard/DashboardNavbar'
-import { Pointer } from '@/components/ui/pointer'
-// import { Pointer } from 'lucide-react'
+import { DashboardNavbar } from "@/components/dashboard/DashboardNavbar";
 
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <>
-    <Pointer />
       <DashboardNavbar />
-      <div className="pt-16"> 
-        {children}
-      </div>
+      <div className="pt-16">{children}</div>
     </>
-  )
+  );
 }
