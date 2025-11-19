@@ -16,7 +16,7 @@ export async function syncUserToDatabase(clerkUserId: string, email: string, nam
     })
     return user
   } catch (error) {
-    console.error('Error syncing user to database:', error)
+  
     throw new Error('Failed to sync user to database')
   }
 }
@@ -27,7 +27,7 @@ export async function getUserFromDatabase(clerkUserId: string) {
       where: { clerkUserId }
     })
   } catch (error) {
-    console.error('Error fetching user from database:', error)
+
     throw new Error('Failed to fetch user from database')
   }
 }
@@ -45,7 +45,7 @@ export async function getUserWithNotes(clerkUserId: string) {
       }
     })
   } catch (error) {
-    console.error('Error fetching user with notes:', error)
+  
     throw new Error('Failed to fetch user notes')
   }
 }

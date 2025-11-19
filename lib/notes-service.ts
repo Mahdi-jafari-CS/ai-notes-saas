@@ -18,12 +18,12 @@ export async function createNote(data: CreateNoteData) {
         inputText: data.inputText,
         inputType: data.inputType,
         fileName: data.fileName,
-        status: data.status || 'pending', // ✅ ADDED
-      }, // ✅ REMOVED: as any
+        status: data.status || 'pending', 
+      }, 
     })
     return note
   } catch (error) {
-    console.error('Failed to create note:', error)
+ 
     throw new Error('Could not save note to database')
   }
 }
@@ -37,7 +37,7 @@ export async function getUserNotes(userId: string) {
     })
     return notes
   } catch (error) {
-    console.error('Failed to fetch notes:', error)
+  
     throw new Error('Could not fetch notes from database')
   }
 }
@@ -62,7 +62,7 @@ export async function updateNote(
     })
     return note
   } catch (error) {
-    console.error('Failed to update note:', error)
+   
     throw new Error('Could not update note in database')
   }
 }
@@ -74,7 +74,7 @@ export async function getNoteById(id: string, userId: string) {
     })
     return note
   } catch (error) {
-    console.error('Failed to fetch note:', error)
+   
     throw new Error('Could not fetch note from database')
   }
 }

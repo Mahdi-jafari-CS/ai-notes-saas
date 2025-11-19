@@ -24,7 +24,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ notes });
   } catch (error) {
-    console.error("History fetch error:", error);
+  
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

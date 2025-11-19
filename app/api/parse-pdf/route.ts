@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   let tempFilePath: string | null = null
   
   try {
-    console.log('📥 Received PDF parse request')
+
     
     const formData = await request.formData()
     const file = formData.get('pdf') as File
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('🔍 Starting PDF parsing...')
+
     
     // Write file to temp directory
     const arrayBuffer = await file.arrayBuffer()
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
       pdfParser.loadPDF(tempFilePath!)
     })
     
-    console.log('✅ PDF parsed successfully')
+   
 
     // Clean up the text
     const cleanedText = text
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('❌ PDF parsing failed:', error)
+
     
     return NextResponse.json(
       { error: 'Failed to parse PDF file: ' + (error instanceof Error ? error.message : 'Unknown error') },
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
       try {
         await unlink(tempFilePath)
       } catch (err) {
-        console.warn('Failed to delete temp file:', err)
+       
       }
     }
   }

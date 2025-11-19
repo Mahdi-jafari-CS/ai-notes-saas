@@ -20,7 +20,7 @@ export interface NoteRecord {
 // Client-side function that uses the API route
 export async function parsePDF(file: File): Promise<ParseResult> {
   try {
-    console.log('🚀 Sending PDF to API for parsing...')
+    
     
     const formData = new FormData()
     formData.append('pdf', file)
@@ -30,7 +30,7 @@ export async function parsePDF(file: File): Promise<ParseResult> {
       body: formData,
     })
 
-    console.log('📨 API response status:', response.status)
+
     
     // Clone the response so we can read it multiple times if needed
     const responseClone = response.clone()
@@ -39,15 +39,15 @@ export async function parsePDF(file: File): Promise<ParseResult> {
       let errorMessage = 'Failed to parse PDF'
       try {
         const errorData = await response.json()
-        console.error('❌ API error:', errorData)
+       
         errorMessage = errorData.error || errorMessage
       } catch (e) {
         // If response is not JSON (HTML error page), use the cloned response
         try {
           const errorText = await responseClone.text()
-          console.error('❌ Non-JSON error response:', errorText.substring(0, 200))
+        
         } catch {
-          console.error('❌ Could not read error response')
+      
         }
         errorMessage = `Server error (${response.status})`
       }
@@ -55,11 +55,11 @@ export async function parsePDF(file: File): Promise<ParseResult> {
     }
 
     const result = await response.json()
-    console.log('✅ PDF parsed via API successfully')
+  
     return result
 
   } catch (error) {
-    console.error('❌ PDF parsing failed:', error)
+  
     if (error instanceof Error) {
       throw error
     }
@@ -91,10 +91,10 @@ export async function saveParsedPDFToDatabase(
     }
 
     const { note } = await response.json()
-    console.log('✅ Note saved to database:', note.id)
+   
     return note
   } catch (error) {
-    console.error('❌ Failed to save note:', error)
+ 
     throw error
   }
 }

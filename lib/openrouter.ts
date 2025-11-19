@@ -24,21 +24,21 @@ async function fetchWithRetry(url: string, options: RequestInit, maxRetries = 5,
       const errorData = await response.json().catch(() => ({}));
       const errorMsg = errorData?.error?.message || 'Unknown error';
       
-      // Try a different model if available
+   
       if (modelIndex < FREE_MODELS.length - 1) {
-        console.log(`⚠️ Issue with model (${errorMsg}). Trying different model...`);
+     
         const newOptions = { ...options };
         const body = JSON.parse(options.body as string);
         body.model = FREE_MODELS[modelIndex + 1];
         newOptions.body = JSON.stringify(body);
-        console.log(`🔄 Switching to: ${FREE_MODELS[modelIndex + 1]}`);
+      
         return fetchWithRetry(url, newOptions, maxRetries, modelIndex + 1);
       }
       
       // If no more models to try, wait with exponential backoff
       if (attempt < maxRetries) {
         const waitTime = Math.pow(2, attempt) * 5000; // 10s, 20s, 40s, 80s
-        console.log(`⏳ All models busy. Retrying in ${waitTime/1000}s... (attempt ${attempt}/${maxRetries})`);
+       
         await new Promise(resolve => setTimeout(resolve, waitTime));
         // Reset to first model for next attempt
         const resetOptions = { ...options };
@@ -60,13 +60,13 @@ async function fetchWithRetry(url: string, options: RequestInit, maxRetries = 5,
 
 export const aiService = {
   async generate(prompt: string, type: 'summary' | 'bullets' | 'flashcards' | 'quiz'): Promise<string> {
-    console.log(`🤖 Starting AI generation for ${type}...`);
+  
     
     // Use paid model if specified in environment, otherwise use free models
     const preferredModel = process.env.OPENROUTER_PREFERRED_MODEL || FREE_MODELS[0];
     const usePaidModel = !!process.env.OPENROUTER_PREFERRED_MODEL;
     
-    console.log(`📊 Using model: ${preferredModel} (${usePaidModel ? 'PAID' : 'FREE'})`);
+    
     
     const response = await fetchWithRetry('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -97,7 +97,7 @@ export const aiService = {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       const errorMessage = errorData.error?.message || response.statusText;
-      console.error(`❌ AI generation failed for ${type}:`, errorMessage);
+     
       
       // Check if it's a rate limit error
       if (response.status === 429) {
@@ -109,7 +109,7 @@ export const aiService = {
 
     const data = await response.json();
     const result = data.choices?.[0]?.message?.content || 'No response generated';
-    console.log(`✅ AI generation successful for ${type}`);
+  
     return result;
   },
 

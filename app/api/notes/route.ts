@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ note, success: true })
   } catch (error) {
-    console.error('Notes API POST error:', error)
+ 
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
     const notes = await getUserNotes(user.id)
     return NextResponse.json({ notes, success: true })
   } catch (error) {
-    console.error('Notes API GET error:', error)
+ 
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -110,14 +110,7 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json()
     const { inputText, outputType, outputText, status } = body
 
-    console.log('📝 PATCH request data:', {
-      noteId,
-      userId: user.id,
-      inputTextLength: inputText?.length,
-      outputType,
-      outputTextLength: outputText?.length,
-      status
-    })
+    
 
     const note = await updateNote(noteId, user.id, {
       inputText,
@@ -126,16 +119,11 @@ export async function PATCH(request: NextRequest) {
       status,
     })
 
-    console.log('✅ Note updated successfully:', {
-      noteId: note.id,
-      outputType: note.outputType,
-      outputTextLength: note.outputText?.length,
-      status: note.status
-    })
+  
 
     return NextResponse.json({ note, success: true })
   } catch (error) {
-    console.error('Notes API PATCH error:', error)
+  
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
